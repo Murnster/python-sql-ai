@@ -1,14 +1,21 @@
+from dotenv import load_dotenv
 import json
 import mysql.connector
+import os
 import re
 import requests
 
+load_dotenv()
+
 DB_CONFIG = {
-	"host": "localhost",
-	"user": "username",
-	"password": "username",
-	"database": "nfl_games"
+	"host": os.getenv('DB_HOST'),
+	"user": os.getenv('DB_USER'),
+	"password": os.getenv('DB_PASSWORD'),
+	"database": os.getenv('DB_DATABASE')
 }
+
+OLLAMA_MODEL = os.getenv('OLLAMA_MODEL')
+OLLAMA_URL = os.getenv('OLLAMA_URL')
 
 def connect_to_db():
 	return mysql.connector.connect(**DB_CONFIG)
@@ -186,8 +193,6 @@ def generate_sql(question):
 	db = connect_to_db()
 	schema = get_db_schema(db)
 	
-	print(schema)
-	
 	close_db_connection(db)
 	
 	prompt = f"""
@@ -216,9 +221,9 @@ def generate_sql(question):
 	"""
 	
 	response = requests.post(
-		"http://localhost:11434/api/generate",
+		OLLAMA_URL,
 		json={
-			"model": "qwen2.5-coder:14b",
+			"model": OLLAMA_MODEL,
 			"prompt": prompt,
 			"stream": False
 		}
@@ -259,9 +264,9 @@ def analyze_with_ollama(results, question):
 	"""
 	
 	response = requests.post(
-		"http://localhost:11434/api/generate",
+		OLLAMA_URL,
 		json={
-			"model": "qwen2.5-coder:14b",
+			"model": OLLAMA_MODEL,
 			"prompt": prompt,
 			"stream": False
 		}

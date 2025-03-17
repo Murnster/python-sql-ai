@@ -1,4 +1,5 @@
--- games
+CREATE DATABASE `nfl_games`;
+
 CREATE TABLE `games` (
   `game_id` int NOT NULL AUTO_INCREMENT,
   `status` varchar(50) DEFAULT NULL,
@@ -18,9 +19,8 @@ CREATE TABLE `games` (
   `score_loser` int DEFAULT NULL,
   `boxscore_stats_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6733 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=6733 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- game_stats
 CREATE TABLE `game_stats` (
 	`stat_id` int NOT NULL AUTO_INCREMENT,
 	`game_id` int NOT NULL,
@@ -60,4 +60,4 @@ CREATE TABLE `game_stats` (
 	PRIMARY KEY (`stat_id`),
 	KEY `fk_game_stats_game` (`game_id`),
 	CONSTRAINT `fk_game_stats_game` FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13461 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=13461 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
